@@ -1,5 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
+//connection à la db Mongo sur le cloud
+const mongoose = require('mongoose');
+mongoose.connect('mongodb+srv://samepassword:samepassword@cluster0.mppsp.mongodb.net/<dbname>?retryWrites=true&w=majority',
+  { useNewUrlParser: true,
+    useUnifiedTopology: true })
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'));
+
+
 //création de l'application express
 const app = express();
 
