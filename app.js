@@ -1,8 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
+const Wilder = require('./models/Wilder');
 
 //connection à la db Mongo sur le cloud
-const mongoose = require('mongoose');
+
 mongoose.connect('mongodb+srv://samepassword:samepassword@cluster0.mppsp.mongodb.net/<dbname>?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
@@ -31,25 +34,39 @@ app.use((req, res, next) => {
  */
 app.use(bodyParser.json());
 
+/**
+ * POST
+ * on passe l'ensemble du contenu du model via l'opérateur spray . . .
+ */
 app.post('/api/wilder', (req, res, next) => {
-    console.log(req.body);
-    res.status(201).json({message: 'Votre objet a bien été crée !'});
+    //suppression de l'id du corp de la requete pour eviter pb coté front
+    delete req.body._id;  
+   const wilder = new Wilder({
+    ...req.body
+   });
+   //methode save pour l'enrengistrement en base et retourne une promise then et catch
+   wilder.save()
+   .then(() => res.status(201).json({message: 'Objet enregistré !'}))
+   .catch(error => res.status(400).json({err}));
+});
+
+/**
+ * GET{id}
+ */
+app.get('/api/wilder/:name', (req, res, next) => {
+    Wilder.findOne({ name: req.params.name })
+    .then(wilder => res.status(200).json(wilder))
+    .catch(error => res.status(404).json({error}));
+})
+
+
+app.get('/api/wilder', (req, res, next) => {
+    Wilder.find()
+    .then(wilders => res.status(200).json(wilders))
+    .catch(error => res.status(400).json({error}));
 });
 
 
-
-//middleware
-app.use('/api/wilder', (req, res, next) => {
-    const wilder = [
-    {
-        _id: 'fdss113sfsf',
-        name: 'John Doe',
-        city: 'Bayonne',
-        urlImage: 'http://lorempixel.com/400/200/sports',
-        skills: [{ title: 'HTML', votes: 9}],
-    }];
-res.status(200).json(wilder);
-});
 
 //on exporte l'app pour qu'elle devienne accessible sur l'ensemble du projet
 module.exports = app;
