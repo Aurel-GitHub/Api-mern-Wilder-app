@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const Wilder = require('./models/wilder');
+const wilder = require('./models/wilder');
 
 //connection à la db Mongo sur le cloud
 
@@ -50,24 +51,14 @@ app.post('/api/wilder', (req, res, next) => {
    .catch(error => res.status(400).json({error}));
 });
 
-// /**
-//  * GET{id}
-//  */
-// app.get('/api/wilder/:name', (req, res, next) => {
-//     wilder.findOne({ name: req.params.name })
-//     .then(wilder => res.status(200).json(wilder))
-//     .catch(error => res.status(404).json({error}));
-// })
-
-// /**
-//  * GET  
-//  */
-// app.get('/api/wilder', (req, res, next) => {
-//     wilder.find()
-//     .then(wilders => res.status(200).json(wilders))
-//     .catch(error => res.status(400).json({error}));
-// });
-
+/**
+ * GET
+ */
+app.use('/api/wilder', (req, res, next) => {
+    Wilder.find()
+      .then(wilders => res.status(200).json(wilders))
+      .catch(error => res.status(400).json({error}));
+})
 
 
 //on exporte l'app pour qu'elle devienne accessible sur l'ensemble du projet
