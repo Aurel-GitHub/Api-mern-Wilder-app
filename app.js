@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const Wilder = require('./models/Wilder');
+const Wilder = require('./models/wilder');
 
 //connection à la db Mongo sur le cloud
 
@@ -41,30 +41,32 @@ app.use(bodyParser.json());
 app.post('/api/wilder', (req, res, next) => {
     //suppression de l'id du corp de la requete pour eviter pb coté front
     delete req.body._id;  
-   const wilder = new Wilder({
+   const wilder = new Wilder({  
     ...req.body
    });
    //methode save pour l'enrengistrement en base et retourne une promise then et catch
    wilder.save()
    .then(() => res.status(201).json({message: 'Objet enregistré !'}))
-   .catch(error => res.status(400).json({err}));
+   .catch(error => res.status(400).json({error}));
 });
 
-/**
- * GET{id}
- */
-app.get('/api/wilder/:name', (req, res, next) => {
-    Wilder.findOne({ name: req.params.name })
-    .then(wilder => res.status(200).json(wilder))
-    .catch(error => res.status(404).json({error}));
-})
+// /**
+//  * GET{id}
+//  */
+// app.get('/api/wilder/:name', (req, res, next) => {
+//     wilder.findOne({ name: req.params.name })
+//     .then(wilder => res.status(200).json(wilder))
+//     .catch(error => res.status(404).json({error}));
+// })
 
-
-app.get('/api/wilder', (req, res, next) => {
-    Wilder.find()
-    .then(wilders => res.status(200).json(wilders))
-    .catch(error => res.status(400).json({error}));
-});
+// /**
+//  * GET  
+//  */
+// app.get('/api/wilder', (req, res, next) => {
+//     wilder.find()
+//     .then(wilders => res.status(200).json(wilders))
+//     .catch(error => res.status(400).json({error}));
+// });
 
 
 
