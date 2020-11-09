@@ -2,8 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const wilderRoutes = require('./routes/routes');
-// const Wilder = require('./models/wilder');
-// const wilder = require('./models/wilder');
+
 
 //connection à la db Mongo sur le cloud
 mongoose.connect('mongodb+srv://samepassword:samepassword@cluster0.mppsp.mongodb.net/<dbname>?retryWrites=true&w=majority',
