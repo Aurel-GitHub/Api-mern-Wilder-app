@@ -2,7 +2,6 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
-
 //middleware pour l'authentification    
 exports.signup = (req, res, next) => {  
     bcrypt.hash(req.body.password, 10) //10 le salt qui indique cmb de fois on excute l'algo de hachage
