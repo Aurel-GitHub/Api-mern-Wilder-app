@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const wilderRoutes = require('./routes/routes');
-
+const userRoutes = require('./routes/user');
 
 //connection à la db Mongo sur le cloud
 mongoose.connect('mongodb+srv://samepassword:samepassword@cluster0.mppsp.mongodb.net/<dbname>?retryWrites=true&w=majority',
@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 
 //utilisation de routes dans l'appli
 app.use('/api/wilder', wilderRoutes);
-
+app.use('/api/auth', userRoutes);
 
 //on exporte l'app pour qu'elle devienne accessible sur l'ensemble du projet
 module.exports = app;
