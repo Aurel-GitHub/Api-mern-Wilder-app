@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const wilderRoutes = require('./routes/routes');
 const userRoutes = require('./routes/user');
 
+
 //connection à la db Mongo sur le cloud
 mongoose.connect('mongodb+srv://samepassword:samepassword@cluster0.mppsp.mongodb.net/<dbname>?retryWrites=true&w=majority',
   { useNewUrlParser: true,
@@ -32,7 +33,7 @@ app.use((req, res, next) => {
 // le bodyparser pour l'integration du json dans le body de la requete
 app.use(bodyParser.json());
 
-//utilisation de routes dans l'appli
+//utilisation de routes dans l'appli  
 app.use('/api/wilder', wilderRoutes);
 app.use('/api/auth', userRoutes);
 
