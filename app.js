@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+
 const wilderRoutes = require('./routes/routes');
 const userRoutes = require('./routes/user');
 
@@ -9,7 +10,7 @@ const userRoutes = require('./routes/user');
 mongoose.connect('mongodb+srv://samepassword:samepassword@cluster0.mppsp.mongodb.net/<dbname>?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
-  .then(() => console.log('U are connected MongoDB enjoy !!!'))
+  .then(() => console.log('Tu es connecté sur le port 3000 !!!'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 

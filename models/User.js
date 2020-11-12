@@ -1,13 +1,13 @@
-    const mongoose = require('mongoose');
-    const uniqueValidator = require('mongoose');
+const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
-    //unique pour rendre l'email d'inscription unique
-    const userShema = mongoose.Schema({
-        email: {type: String, required: true, unique: true},
-        password: {type: String, required: true}
-    });
+//unique pour rendre l'email d'inscription unique
+const userSchema = mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true }
+}); 
 
-    //application du validator avant d'en faire un model
-    userShema.plugin(uniqueValidator);
+//application du validator avant d'en faire un model
+userSchema.plugin(uniqueValidator);
 
-    module.export = mongoose.model('User', userShema);
+module.exports = mongoose.model('User', userSchema);
