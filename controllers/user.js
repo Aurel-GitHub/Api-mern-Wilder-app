@@ -23,17 +23,17 @@ exports.login = (req, res, next) => {
         if (!user) {
           return res.status(401).json({ error: 'Utilisateur non trouvé !' }); //401=non autorisé
         }
-        bcrypt.compare(req.body.password, user.password) //comparaison entre le password du body et celui haché
+        bcrypt.compare(req.body.password, user.password) //comparaison entre le password du body et le hash enrengistré dans le user
           .then(valid => {
-            if (!valid) {
+            if (!valid) { //si la comparaison n'est pas valable est renvoit false
               return res.status(401).json({ error: 'Mot de passe incorrect !' });
             }
             res.status(200).json({
               userId: user._id, 
               //sign() prend en arg un payload données encodés
               token: jwt.sign(
-                { userId: user._id }, //encodage de l'id pour eviter qu'un autre utilisateur modifie l'objet par crée
-                'RANDOM_TOKEN_SECRET', //mdp pour la partie dev à remplacer en prod par une chaine de caract.
+                { userId: user._id }, //donnée à encoder "payload" encodage de l'id pour eviter qu'un autre utilisateur modifie l'objet par crée
+                'RANDOM_TOKEN_SECRET', //clé secrete pour l'encodage    à remplacer en prod par une chaine de caract !!
                 { expiresIn: '24h' } //chaque token dure 24h au delà de 24h il n'est plus valable
               )
             });

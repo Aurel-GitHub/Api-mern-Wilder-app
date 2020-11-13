@@ -2,15 +2,18 @@ const jwt = require('jsonwebtoken');
 
 //middleware crée pour la sécurité des routes
 module.exports = (req, res, next) => {
+    //bloc try & catch pour la gestion d'erreur
     try {
-        //recup du token dans un tableau
+        //recup du token qui va etre retourné sous forme de tableau
         const token = req.headers.authorization.split(' ')[1];
         
-        //décode le token par une via une verif du token et de sa clé 
+        //décode le token grace a verify qui prend en argument le token et la clé secrete cree lors de la creation du token  
         const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
 
-        //recup de l'id et verification si c'est bien celui du token
+        //recupe le user.id dans le token
         const userId = decodedToken.userId;
+            
+        //verification si il y a un user.id dans la requete et qu'il correspondt bien à celui de la requete
         if(req.body.userId && req.body.userId != userId){
             throw 'User ID non valable !';
         }else{
