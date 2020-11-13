@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 //middleware pour l'authentification    
 exports.signup = (req, res, next) => {  
-    bcrypt.hash(req.body.password, 10) //10 le salt qui indique cmb de fois on excute l'algo de hachage
+    bcrypt.hash(req.body.password, 10) //10 le salt qui indique le nbr de tour  ou l'algo de hachage est executé, ici 10 tours
         .then(hash => {
             const user = new User({
                 email: req.body.email,
@@ -17,22 +17,23 @@ exports.signup = (req, res, next) => {
         .catch(error => res.status(500).json({error}));
 };  
 
+
 exports.login = (req, res, next) => {
     User.findOne({ email: req.body.email })
       .then(user => {
         if (!user) {
           return res.status(401).json({ error: 'Utilisateur non trouvé !' }); //401=non autorisé
         }
-        bcrypt.compare(req.body.password, user.password) //comparaison entre le password du body et le hash enrengistré dans le user
+        bcrypt.compare(req.body.password, user.password) //comparaison entre le mdp envoyé dans la requete et le hash enrengistré dans le user
           .then(valid => {
             if (!valid) { //si la comparaison n'est pas valable est renvoit false
               return res.status(401).json({ error: 'Mot de passe incorrect !' });
             }
             res.status(200).json({
               userId: user._id, 
-              //sign() prend en arg un payload données encodés
+              //sign() prend en arg un payload -> données encodés
               token: jwt.sign(
-                { userId: user._id }, //donnée à encoder "payload" encodage de l'id pour eviter qu'un autre utilisateur modifie l'objet par crée
+                { userId: user._id }, //verification que la requete correspond bien à l'user.id plus haut +  pour eviter qu'un autre utilisateur modifie l'objet par crée
                 'RANDOM_TOKEN_SECRET', //clé secrete pour l'encodage    à remplacer en prod par une chaine de caract !!
                 { expiresIn: '24h' } //chaque token dure 24h au delà de 24h il n'est plus valable
               )
@@ -40,5 +41,5 @@ exports.login = (req, res, next) => {
           })
           .catch(error => res.status(500).json({ error }));
       })
-      .catch(error => res.status(500).json({ error })); //message d'erreur si il y a un pb de co à MongoDB
+      .catch(error => res.status(500).json({ error })); //message d'erreur pb de co à MongoDB
   };

@@ -4,10 +4,10 @@ const router = express.Router();
 const wilderCtrl = require('../controllers/wilder');
 const auth = require('../middleware/auth'); //rajout du middleware sur les routes à proteger
 
-router.post('/', auth, wilderCtrl.createWilder);
-router.put('/:_id', auth, wilderCtrl.modifyWilder);
-router.delete('/:_id', auth, wilderCtrl.deleteWilder);
-router.get('/:name', auth, wilderCtrl.getOneWilder);
-router.get('/',  auth, wilderCtrl.getAllWilder);
+router.post('/wilder/', auth, wilderCtrl.createWilder);
+router.put('/wilder/:_id', auth, wilderCtrl.modifyWilder);
+router.delete('/wilder/:_id', auth, wilderCtrl.deleteWilder);
+router.get('/wilder/:name', auth, wilderCtrl.getOneWilder);
+router.get('/wilder/',  auth, wilderCtrl.getAllWilder);
 
   module.exports = router;  

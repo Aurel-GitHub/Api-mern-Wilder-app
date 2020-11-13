@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
-
+ const uniqueValidator = require('mongoose-unique-validator'); //package de validation pour pré-valider les informations avant de les enregistrer
 //unique pour rendre l'email d'inscription unique
 const userSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },
